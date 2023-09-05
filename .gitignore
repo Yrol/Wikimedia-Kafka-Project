@@ -13,6 +13,8 @@ target/
 *.iml
 *.ipr
 
+docker-compose/docker-logs/*
+
 ### Eclipse ###
 .apt_generated
 .classpath

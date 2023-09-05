@@ -8,12 +8,15 @@ services:
       - "5005:5005"
     volumes:
       - "./docker-logs:/workspace/kafka-producer-wikimedia/logs"
+    depends_on:
+      - docker-mysql
     user: root
     environment:
       #      - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xms128m -Xmx256m"
       - "JAVA_OPTS=-Dapp.clients.scheme=http -Dserver.port=8080 -Dspring.profiles.active=dev-docker -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xms128m -Xmx256m"
     networks:
       - ${GLOBAL_NETWORK:-services}
+
   kafka-consumer-wikimedia:
     image: ${GROUP_ID}/wikimedia.consumer.service:${SERVICE_VERSION:-latest}
     ports:
@@ -21,8 +24,28 @@ services:
       - "5006:5006"
     volumes:
       - "./docker-logs:/workspace/kafka-consumer-wikimedia/logs"
+    depends_on:
+      - docker-mysql
     environment:
       #      - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xms128m -Xmx256m"
       - "JAVA_OPTS=-Dapp.clients.scheme=http -Dserver.port=8888 -Dspring.profiles.active=dev-docker -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006 -Xms128m -Xmx256m"
+    networks:
+      - ${GLOBAL_NETWORK:-services}
+
+  docker-mysql:
+    image: mysql:8.1.0
+    restart: unless-stopped
+    tty: true #enable CLI/bash interface on the MySQL container
+    volumes:
+      - "./docker-logs:/mysql_logs/var/lib/mysql"
+    ports:
+      - "3306:3306"
+    expose: #exposing the port to  be used locally (with local MySQL clients such as MySQLWorkbench & ect)
+      - "3306"
+    environment:
+      MYSQL_DATABASE: wikimedia
+      MYSQL_USER: wikimedia
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
     networks:
       - ${GLOBAL_NETWORK:-services}
