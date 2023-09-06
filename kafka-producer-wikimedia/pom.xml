@@ -53,12 +53,6 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.13.2.2</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
     </dependencies>
 
     <build>
@@ -73,12 +67,6 @@
                     <image>
                         <name>${project.groupId}/wikimedia.producer.service:${project.version}</name>
                     </image>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
                 </configuration>
                 <executions>
                     <execution>
