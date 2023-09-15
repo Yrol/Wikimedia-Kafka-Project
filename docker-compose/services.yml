@@ -8,10 +8,12 @@ services:
       - "5005:5005"
     volumes:
       - "./docker-logs:/workspace/kafka-producer-wikimedia/logs"
+      - "./schema-registry-status.sh:/usr/local/bin/schema-registry-status.sh"
     depends_on:
       - docker-mysql
     restart: on-failure
     user: root
+    entrypoint: [ "bash", "schema-registry-status.sh" ]
     environment:
       #      - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xms128m -Xmx256m"
       - "JAVA_OPTS=-Dapp.clients.scheme=http -Dserver.port=8080 -Dspring.profiles.active=dev-docker -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xms128m -Xmx256m"
@@ -25,9 +27,12 @@ services:
       - "5006:5006"
     volumes:
       - "./docker-logs:/workspace/kafka-consumer-wikimedia/logs"
+      - "./schema-registry-status.sh:/usr/local/bin/schema-registry-status.sh"
     depends_on:
       - docker-mysql
     restart: on-failure
+    user: root
+    entrypoint: [ "bash", "schema-registry-status.sh" ]
     environment:
       #      - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xms128m -Xmx256m"
       - "JAVA_OPTS=-Dapp.clients.scheme=http -Dserver.port=8888 -Dspring.profiles.active=dev-docker -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006 -Xms128m -Xmx256m"

@@ -21,7 +21,7 @@ public class KafkaDatabaseConsumer {
     @KafkaListener(topics = "wikimedia_recentchange",  groupId = "my-group-id")
     public void consume(String eventMassage) {
         LOG.info(String.format("Event message received -> %s", eventMassage));
-
+        
         WikimediaData wikimediaData =  new WikimediaData();
         wikimediaData.setWikiEventData(eventMassage);
 
