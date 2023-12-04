@@ -48,9 +48,9 @@ This will allow to build and run all the services in Docker.
     ```
     docker-compose -f common.yml -f kafka_cluster.yml up 
     ```
-- **Step 3:** Install and run MySQL locally with the DB `wikimeida` or create and run it as a separate Docker container using `docker-mysql` configuration available in `services.yml` file.
+- **Step 2:** Install and run MySQL locally with the DB `wikimeida` or create and run it as a separate Docker container using `docker-mysql` configuration available in `services.yml` file.
 
-- **Step 2:** Build and run each microservice (`kafka-consumer-wikimedia` and `kafka-producer-wikimedia`) project in IntelliJ.
+- **Step 3:** Build and run each microservice (`kafka-consumer-wikimedia` and `kafka-producer-wikimedia`) project in IntelliJ.
 
 ### Connecting to the MySQL
 The [MySQL Workbench](https://www.mysql.com/products/workbench/) can be used with the configs defined in `services.yml` file for `docker-mysql`.
